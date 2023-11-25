@@ -9,6 +9,14 @@ Primero, instalar dependencias:
 
     $ cd frontend && npm install && cd ..
 
+
+Tambien es necesario crear un archivo .env donde colocar las siguientes variables de entorno:
+
+ - PAYPAL_CLIENT_ID
+ - PAYPAL_CLIENT_SECRET
+
+estas se optiene desde el portal de developers de paypal
+
 Luego levantar los servicios
 
     $ python backend/manage.py migrage && python backend/manage.py runserver
