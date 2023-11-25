@@ -26,7 +26,10 @@ class OrderViewSet(ModelViewSet):
     filterset_class = OrderFilter
 
     def retrieve(self, request, *args, **kwargs):
-        car_register: CarRegister = get_object_or_404(CarRegister, code=kwargs['pk'])
+        car_registers: Queryset = CarRegister.objects.filter(code=kwargs['pk'])
+        if len(car_registers) == 0:
+            return Response(status=404)
+        car_register = car_registers[0]
         car_register.leave_date = datetime.datetime.now()
 
         notify_url = request.build_absolute_uri(reverse('order-paypal-notify', kwargs=kwargs))
@@ -39,8 +42,15 @@ class OrderViewSet(ModelViewSet):
 
     @action(methods=['get'], detail=True, permission_classes=[AllowAny], url_name='status', url_path='status')
     def order_status(self, request: Request, pk=None):
-        car_register: CarRegister = get_object_or_404(CarRegister, code=pk)
-        order: Order = get_object_or_404(Order, car_register=car_register)
+        car_registers = CarRegister.objects.filter(code=pk)
+        if len(car_registers) == 0:
+            return Response(status=404)
+        car_register = car_registers[0]
+
+        orders = Order.objects.filter(car_register=car_register)
+        if len(orders) == 0:
+            return Response(status=404)
+        order = orders[0]
         order.save()
 
         status, context = get_payment_status(order)
