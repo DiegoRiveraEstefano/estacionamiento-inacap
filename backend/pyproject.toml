@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Diego Rivera <diego.rivera.estefano@gmailpoe.com>"]
+#readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.0"
+django-extensions = "^3.2.3"
+django-cors-headers = "^4.3.1"
+djangorestframework = "^3.14.0"
+python-dotenv = "^1.0.0"
+requests = "^2.31.0"
+drf-spectacular = "^0.27.0"
+django-filter = "^23.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

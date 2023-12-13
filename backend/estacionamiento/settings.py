@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'drf_spectacular',
     # 'paypal.standard.pdt',
 
     'car',
@@ -142,3 +143,14 @@ CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 
 REDIRECT_PAGE = 'http://localhost:4321/order/%order%'
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Estacionamiento-inacap',
+    'DESCRIPTION': 'Sistema de Estacionamiento para ingenieria de software',
+    'VERSION': '0.0.1',
+    'SERVE_INCLUDE_SCHEMA': False,
+}

@@ -7,6 +7,11 @@ from .models import Order
 
 
 def get_paypal_token() -> str:
+    """
+    This function retrieves a PayPal token for authentication.
+
+    :return: The PayPal token as a string.
+    """
     client_ID = settings.CLIENT_ID
     client_Secret = settings.CLIENT_SECRET
     url = "https://api.sandbox.paypal.com/v1/oauth2/token"
@@ -25,6 +30,14 @@ def get_paypal_token() -> str:
 
 
 def make_pay_order(car_register: CarRegister, notify_url, return_url, cancel_url):
+    """
+    This function creates a PayPal order and saves it to the database.
+
+    :param car_register: The car registration object associated with the payment.
+    :param notify_url: The URL where PayPal should send notifications.
+    :param return_url: The URL where the user should be redirected after a successful payment.
+    :param cancel_url: The URL where the user should be redirected if they cancel the payment process.
+    """
     car_register.leave_date = datetime.datetime.now()
     token = get_paypal_token()
     headers = {
@@ -71,6 +84,12 @@ def make_pay_order(car_register: CarRegister, notify_url, return_url, cancel_url
 
 
 def get_payment_status(order):
+    """
+    This function checks the status of a PayPal payment and updates the associated order object.
+
+    :param order: The order object to check the payment status for.
+    :return: A tuple containing a boolean indicating whether the payment was approved or not, and a dictionary with additional context information.
+    """
     headers = {'Authorization': f'Bearer {get_paypal_token()}'}
     response = requests.get(
         f'https://api-m.sandbox.paypal.com/v2/checkout/orders/{order.payment_id}', headers=headers)
